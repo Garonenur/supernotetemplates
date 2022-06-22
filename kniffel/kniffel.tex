@@ -1,0 +1,58 @@
+\documentclass[a5paper,pagesize,twoside=no,BCOR=0mm,DIV=21,fontsize=10pt]{scrartcl}
+\usepackage[a5paper,top=1.2cm,bottom=0pt,left=0pt,right=0pt]{geometry}
+\usepackage{cmbright}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{caption}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{calc,angles,math,shapes.misc}
+\pgfplotsset{compat=1.16}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{color}
+\usepackage{array}
+\usepackage{epsdice}
+\pagestyle{empty}
+
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+\renewcommand{\arraystretch}{1.2}
+
+\newcommand{\Kniffel}{
+  \begin{tabular}{@{}>{\small}m{2cm}@{}>{\tiny}m{1cm}@{}?>{\tiny}c|>{\tiny}c|>{\tiny}c|>{\tiny}c}
+  \toprule
+  \multicolumn{6}{c}{\textcolor{lightgray}{NAME}}\\\midrule
+  &&1.Spiel&2.Spiel&3.Spiel&4.Spiel\\\midrule
+  1er \epsdice{1}\epsdice{1}\epsdice{1}&&&&\\\hline
+  2er \epsdice{2}\epsdice{2}\epsdice{2}&&&&\\\hline
+  3er \epsdice{3}\epsdice{3}\epsdice{3}&&&&\\\hline
+  4er \epsdice{4}\epsdice{4}\epsdice{4}&&&&\\\hline
+  5er \epsdice{5}\epsdice{5}\epsdice{5}&&&&\\\hline
+  6er \epsdice{6}\epsdice{6}\epsdice{6}&&&&\\\hline\hline
+  Summe&\tikz{\path[>>>->] (0,0) edge (.5,0);}&&&\\\hline
+  Summe$>63$&plus \num{35}&&&\\\hline
+  Gesamt&\tikz{\path[>>>->] (0,0) edge (.5,0);}&&&\\\hline\hline
+  Dreier&alle Augen&&&\\\hline
+  Vierer&alle Augen&&&\\\hline
+  Full-House&\num{25} Punkte&&&\\\hline
+  kleine Straße&\num{30} Punkte&&&\\\hline
+  große Straße&\num{40} Punkte&&&\\\hline
+  Kniffel&\num{50} Punkte&&&\\\hline
+  Chance&alle Augen&&&\\\hline\hline
+  Gesamt&\tikz{\path[>>>->] (0,0) edge (.5,0);}&&&\\\hline
+  Summe oben&\tikz{\path[>>>->] (0,0) edge (.5,0);}&&&\\\hline
+  Gesamt&\tikz{\path[>>>->] (0,0) edge (.5,0);}&&&\\\bottomrule
+\end{tabular}
+}
+
+\begin{document}
+\begin{table}[hpb]
+  \centering
+  \caption*{\Huge{\textbf{KNIFFEL}}}
+  \label{tab:label}
+  \begin{tabular}{@{}c?c@{}}
+    \Kniffel&\Kniffel
+  \end{tabular}
+\end{table}
+\end{document}

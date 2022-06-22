@@ -1,0 +1,130 @@
+\documentclass[a5paper,pagesize,twoside=no,BCOR=0mm]{scrartcl}
+\usepackage[a5paper,top=0pt,bottom=0pt,left=0pt,right=0pt]{geometry}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{caption}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{calc,angles,math,shapes.misc}
+\pgfplotsset{compat=1.16}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{color}
+\usepackage{array}
+\pagestyle{empty}
+
+\newcolumntype{?}{!{\vrule width 1pt}}
+\tikzset{
+  triomino/.pic = {
+    \coordinate (-A) at (0,0);
+    \coordinate (-B) at (0.2,0);
+    \coordinate (-X) at ($ (-A)!.5!(-B) $);
+    \coordinate (-C) at ($ (-X) ! {sin(60)*2} ! 90:(-B) $);
+    \coordinate (D) at ($ (-X) ! {sin(60)*1} ! 90:(-B) $);
+    \path [pic actions] (-A) -- (-B) -- (-C) -- cycle;
+    \node at (D) {\tikzpictext};
+  },
+  triocircle/.pic = {
+    \pic (new) [draw,
+    fill=black!60] {triomino};
+    \pic foreach \x in {1,2,3,4,5} (old\x) [draw,
+    fill=black!20,
+    rotate around={\x*60:(new-C)}] {triomino};
+  },
+  triobridge/.pic = {
+    \pic (new) [draw,
+    fill=black!60] {triomino};
+
+    \pic foreach \x in {1,2,3,4} (old\x) [draw,
+    fill=black!20,
+    rotate around={\x*60:(new-C)}] {triomino};
+
+    \pic foreach \x in {5,6,7,8} (old\x) [draw,
+    fill=black!20,
+    rotate around={(\x-2)*60:(new-C)},
+    transform canvas={xshift=-0.2cm}] {triomino};
+  },
+  triodouble/.pic = {
+    \pic (ref) {triomino};
+    \coordinate (A) at (ref-X);
+    \coordinate (B) at (ref-C);
+    \tikzmath {
+      coordinate \Y;
+      \Y = (A) - (B);
+      \distXC = sqrt((\Yx)^2+(\Yy)^2);
+    }
+
+    \pic (new) [draw,
+    fill=black!60,
+    rotate=180,
+    transform canvas={xshift=0.1cm,yshift=\distXC pt}] {triomino};
+
+    \pic foreach \x in {0,1,2,3,4} (old\x) [draw,
+    fill=black!20,
+    rotate around={\x*60:(ref-C)}] {triomino};
+
+    \pic foreach \x in {5,6,7,8} (old\x) [draw,
+    fill=black!20,
+    rotate around={(\x-2)*60:(ref-C)},
+    transform canvas={xshift=-0.2cm}] {triomino};
+  }
+}
+
+\newcommand{\TrioTable}{
+  \begin{tabularx}{0.23\textwidth}{X|c|c}
+    \toprule
+    \multicolumn{3}{c}{\textcolor{lightgray}{NAME}}\\\midrule
+    \small{Punkte}&\small{III}&\tikz[scale=.6,transform shape]{\pic {triocircle};}\\\midrule
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\hline
+    &&\\\midrule
+    &&\\\bottomrule
+  \end{tabularx}
+}
+\begin{document}
+\begin{table}[htpb]
+  \centering
+  \caption*{
+    \begin{tabular}{ccc|cccc}
+      \tikz[baseline] \pic {triobridge}; 40&\tikz[baseline] \pic {triocircle}; 50& \tikz[baseline] \pic {triodouble}; 60&\textbf{I}
+      \num{-5}&\textbf{II} \num{-10}&\textbf{III} \num{-15}& \tikz[baseline]{\node [strike
+      out,draw,anchor=text] {\textbf{III}};} \num{-25}\\
+    \end{tabular}
+  }
+  \label{tab:label}
+  \begin{tabular}{c@{}?@{}c@{}?@{}c@{}?@{}c}
+    \TrioTable{}&\TrioTable{}&\TrioTable{}&\TrioTable{}\\
+  \end{tabular}
+\end{table}
+\end{document}

@@ -1,0 +1,48 @@
+\documentclass[a5paper,pagesize,twoside=no,BCOR=0mm,DIV=21,12pt]{scrbook}
+\usepackage[a5paper,top=10mm,bottom=5mm,left=5pt,right=5pt]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{caption}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.16}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{color}
+\pagestyle{empty}
+
+\renewcommand{\arraystretch}{1.15}
+\newcommand{\MyLine}{\tikz[baseline]{\draw (0cm,0cm) -- (0.28*\textwidth,0cm)}}
+
+\newcommand{\MyTableRow}[1]{\num[minimum-integer-digits=2]{#1} & \MyLine{} & \MyLine{} & \MyLine{}}
+
+\newcommand{\MyMonth}[2]{
+  \pgfmathparse{#2-1}
+  \centering
+  \textcolor{gray}{\vphantom{\|}\textbf{#1}}
+  \begin{tabular}{lc@{\hspace{2mm}}c@{\hspace{2mm}}c}
+    \toprule
+    \pgfplotsforeachungrouped \n in {1,...,\pgfmathresult}{
+      \MyTableRow{\n} \tabularnewline
+    }
+    \MyTableRow{#2} \tabularnewline
+    \bottomrule
+  \end{tabular}
+  \clearpage
+}
+
+\begin{document}
+\MyMonth{Januar}{31}
+\MyMonth{Februar}{29}
+\MyMonth{März}{31}
+\MyMonth{April}{30}
+\MyMonth{Mai}{31}
+\MyMonth{Juni}{30}
+\MyMonth{Juli}{31}
+\MyMonth{August}{31}
+\MyMonth{September}{30}
+\MyMonth{Oktober}{31}
+\MyMonth{November}{30}
+\MyMonth{Dezember}{31}
+
+\end{document}
