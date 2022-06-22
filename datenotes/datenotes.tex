@@ -1,0 +1,27 @@
+\documentclass[a5paper,pagesize,twoside=no,BCOR=0mm,8pt]{scrbook}
+\usepackage[a5paper,top=10mm,bottom=5mm,left=5mm,right=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{caption}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.16}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{color}
+\pagestyle{empty}
+
+\begin{document}
+\noindent
+\makebox[\linewidth][s]{\textcolor{gray}{\scshape \bfseries Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec}}
+\noindent
+\makebox[\linewidth][s]{\textcolor{gray}{\scshape \bfseries \small{1 2 3 4 5 6 7 8 9 10
+11 12 13 14 15 16 17 18 19 20
+21 22 23 24 25 26 27 28 29 30
+31}}}
+\noindent
+\begin{tikzpicture}
+  \foreach \x in {1,2,...,32}
+  \draw[line cap=rect,gray,densely dotted] (0,\x*6mm) -- (\linewidth-\pgflinewidth,\x*6mm);
+\end{tikzpicture}
+\end{document}
