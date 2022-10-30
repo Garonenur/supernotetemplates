@@ -5,10 +5,13 @@
 \usepackage[ngerman]{babel}
 \usepackage{caption}
 \usepackage{tikz,pgfplots}
-\pgfplotsset{compat=1.16}
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{color}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Geburtstagskalender}}
+\usetikzlibrary{shapes.geometric,math}
+\pgfplotsset{compat=1.16}
 \pagestyle{empty}
 
 \renewcommand{\arraystretch}{1.15}
@@ -16,33 +19,66 @@
 
 \newcommand{\MyTableRow}[1]{\num[minimum-integer-digits=2]{#1} & \MyLine{} & \MyLine{} & \MyLine{}}
 
-\newcommand{\MyMonth}[2]{
-  \pgfmathparse{#2-1}
+\newcommand{\monthname}[1]{
+  \ifcase#1
+  \or Januar
+  \or Februar
+  \or März
+  \or April
+  \or Mai
+  \or Juni
+  \or Juli
+  \or August
+  \or September
+  \or Oktober
+  \or November
+  \or Dezember
+  \fi}
+
+\newcommand{\daysofmonth}[1]{
+  \ifcase#1
+  \or 31
+  \or 29
+  \or 31
+  \or 30
+  \or 31
+  \or 30
+  \or 31
+  \or 31
+  \or 30
+  \or 31
+  \or 30
+  \or 31
+  \fi}
+
+\newcommand{\MyMonth}[1]{
+  \tikzmath{
+    int \zero, \next, \prev, \iter;
+    \zero=#1-1;
+    \next=mod(\zero+1,12)+1;
+    \prev=mod(11+\zero,12)+1;
+    \iter=\daysofmonth{#1}-1;
+  }
+  %#1, \zero, \next, \prev, \iter
+  %\monthname{#1}, \daysofmonth{#1}
   \centering
-  \textcolor{gray}{\vphantom{\|}\textbf{#1}}
+  \hyperlink{\prev}{\tikz{\node[dart,draw,black,shape border uses incircle, shape border rotate=180,fill=gray,scale=0.5]{}}}\qquad
+  \textcolor{gray}{\vphantom{$\|$}\textbf{\hypertarget{#1}{\monthname{#1}}}}
+  \qquad
+  \hyperlink{\next}{\tikz{\node[dart,draw,black,shape border uses incircle, fill=gray,scale=0.5]{}}}
   \begin{tabular}{lc@{\hspace{2mm}}c@{\hspace{2mm}}c}
     \toprule
-    \pgfplotsforeachungrouped \n in {1,...,\pgfmathresult}{
+    \pgfplotsforeachungrouped \n in {1,...,\iter}{
       \MyTableRow{\n} \tabularnewline
     }
-    \MyTableRow{#2} \tabularnewline
+    \MyTableRow{\daysofmonth{#1}} \tabularnewline
     \bottomrule
   \end{tabular}
   \clearpage
 }
 
 \begin{document}
-\MyMonth{Januar}{31}
-\MyMonth{Februar}{29}
-\MyMonth{März}{31}
-\MyMonth{April}{30}
-\MyMonth{Mai}{31}
-\MyMonth{Juni}{30}
-\MyMonth{Juli}{31}
-\MyMonth{August}{31}
-\MyMonth{September}{30}
-\MyMonth{Oktober}{31}
-\MyMonth{November}{30}
-\MyMonth{Dezember}{31}
+
+\foreach \m in {1,...,12} { \MyMonth{\m} }
 
 \end{document}
